@@ -79,7 +79,7 @@ export default function Footer() {
                     href="/gallery"
                     className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
                   >
-                    View Gallery
+                    All Photo
                   </Link>
                 </li>
                 <li>
@@ -125,7 +125,7 @@ export default function Footer() {
                     href="/about"
                     className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
                   >
-                    Our Mission
+                    Our Story
                   </Link>
                 </li>
                 <li>
@@ -133,7 +133,7 @@ export default function Footer() {
                     href="/about"
                     className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
                   >
-                    Meet the Team
+                    E-board
                   </Link>
                 </li>
               </ul>
