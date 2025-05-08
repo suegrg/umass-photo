@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Teachers } from "next/font/google";
-import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa"; 
+import { FaFacebook, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 const teachers = Teachers({
   subsets: ["latin"],
@@ -13,131 +12,89 @@ const teachers = Teachers({
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 p-8 text-gray-800">
-      <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start">
-          <div className="flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-8">
-            <Image
-              src="/photo.jpg"
-              alt="Photo Club Logo"
-              width={80}
-              height={80}
-              className="mb-4 md:mb-0"
-            />
-
-            <div className="flex flex-col space-y-2">
-              <h1
-                className={`text-3xl font-bold ${teachers.className} text-[#8f1229]`}
+    <footer className="bg-[#EAEAEA] text-gray-800 py-2">
+      <div className="container mx-auto px-4 flex flex-col justify-center min-h-[300px]">
+        <div className="w-full flex flex-row justify-between items-start flex-nowrap">
+          {/* Left side with logo and socials */}
+          <div className="flex flex-col items-start space-y-4 w-1/4 min-w-[140px] pr-8">
+            <h1 className={`text-4xl ${teachers.className} text-[#8f1229]`}>
+              UMass Photo
+            </h1>
+            <p className="text-md text-gray-600">BUILD UMass 2025</p>
+            <div className="flex space-x-3">
+              <Link
+                href="#"
+                className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
               >
-                UMass Photo
-              </h1>
-              <div className="flex space-x-4">
-                <Link
-                  href="/gallery"
-                  className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                >
-                  <FaFacebook className="h-6 w-6" />
-                </Link>
-
-                <Link
-                  href="/events"
-                  className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                >
-                  <FaInstagram className="h-6 w-6" />
-                </Link>
-
-                <Link
-                  href="/about"
-                  className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                >
-                  <FaLinkedin className="h-6 w-6" />
-                </Link>
-
-                <Link
-                  href="/contact"
-                  className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                >
-                  <FaYoutube className="h-6 w-6" />
-                </Link>
-              </div>
-              <div className="text-gray-600">
-                <p>
-                  &copy; {new Date().getFullYear()} UMass Photo. All rights
-                  reserved.
-                </p>
-              </div>
+                <FaFacebook className="h-6 w-6" />
+              </Link>
+              <Link
+                href="#"
+                className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
+              >
+                <FaInstagram className="h-6 w-6" />
+              </Link>
+              <Link
+                href="#"
+                className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
+              >
+                <FaLinkedin className="h-6 w-6" />
+              </Link>
+              <Link
+                href="#"
+                className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
+              >
+                <FaYoutube className="h-6 w-6" />
+              </Link>
             </div>
           </div>
 
-          {/* gallery */}
-          <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-16 mt-6 md:mt-0">
-            <div>
-              <h2 className="text-xl font-bold text-[#8f1229] mb-4">Gallery</h2>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/gallery"
-                    className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                  >
-                    View Gallery
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/gallery"
-                    className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                  >
-                    Submit Your Photos
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* events */}
-            <div>
-              <h2 className="text-xl font-bold text-[#8f1229] mb-4">Events</h2>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/events"
-                    className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                  >
-                    Upcoming Events
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/events"
-                    className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                  >
-                    Past Events
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* mission */}
-            <div>
-              <h2 className="text-xl font-bold text-[#8f1229] mb-4">Mission</h2>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/about"
-                    className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                  >
-                    Our Mission
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/about"
-                    className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
-                  >
-                    Meet the Team
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          {/* Right side with horizontal navigation links */}
+          <div className="flex justify-between flex-nowrap w-3/4 pl-8">
+            {[
+              {
+                title: "Gallery",
+                links: ["All Photos", "Submit Your Photos"],
+                path: "/gallery",
+              },
+              {
+                title: "Events",
+                links: [
+                  "Spring Contest",
+                  "Fall Foliage Contest",
+                  "Summer Contest",
+                ],
+                path: "/events",
+              },
+              {
+                title: "Mission",
+                links: ["Our Story", "E-Board"],
+                path: "/about",
+              },
+              {
+                title: "Contact",
+                links: ["Email", "Instagram", "Campus Pulse", "Page"],
+                path: "/contact",
+              },
+            ].map((section) => (
+              <div key={section.title} className="space-y-2 min-w-[140px] px-4">
+                <h2 className="text-md text-black font-semibold">
+                  {section.title}
+                </h2>
+                <ul className="space-y-2 text-sm">
+                  {section.links.map((link) => (
+                    <li key={link}>
+                      <Link
+                        href={section.path}
+                        className="text-gray-700 hover:text-[#8f1229] transition-colors duration-200"
+                      >
+                        {link}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </div>
