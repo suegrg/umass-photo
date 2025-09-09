@@ -8,19 +8,82 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [showOtpField, setShowOtpField] = useState(false);
+  const [loginMethod, setLoginMethod] = useState("password"); // 'password', 'magiclink', or 'otp'
   const router = useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // authentication here
-    console.log("Logging in with:", { email, password });
+  // const handlePasswordLogin = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
 
-    setError("");
-    setTimeout(() => {
-      router.push("/dashboard"); 
-    }, 1000);
-  };
+  //   const { error } = await supabase.auth.signInWithPassword({
+  //     email,
+  //     password,
+  //   });
+
+  //   if (error) {
+  //     setError(error.message);
+  //   } else {
+  //     router.push("/dashboard");
+  //   }
+  // };
+
+  // const handleMagicLinkLogin = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   const { error } = await supabase.auth.signInWithOtp({
+  //     email,
+  //     options: {
+  //       emailRedirectTo: `${window.location.origin}/dashboard`,
+  //     },
+  //   });
+
+  //   if (error) {
+  //     setError(error.message);
+  //   } else {
+  //     setSuccessMessage("Check your email for the login link!");
+  //   }
+  // };
+
+  // const handleSendOtp = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   const { error } = await supabase.auth.signInWithOtp({
+  //     email,
+  //     options: {
+  //       shouldCreateUser: false,
+  //     },
+  //   });
+
+  //   if (error) {
+  //     setError(error.message);
+  //   } else {
+  //     setShowOtpField(true);
+  //     setSuccessMessage("Check your email for the one-time code!");
+  //   }
+  // };
+
+  // const handleVerifyOtp = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   const { error } = await supabase.auth.verifyOtp({
+  //     email,
+  //     token: otp,
+  //     type: "email",
+  //   });
+
+  //   if (error) {
+  //     setError(error.message);
+  //   } else {
+  //     router.push("/dashboard");
+  //   }
+  // };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -46,7 +109,56 @@ export default function LoginPage() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            {successMessage && (
+              <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-md">
+                {successMessage}
+              </div>
+            )}
+
+            <div className="flex mb-6 border-b">
+              <button
+                className={`flex-1 py-2 font-medium ${
+                  loginMethod === "password"
+                    ? "text-[#8E122A] border-b-2 border-[#8E122A]"
+                    : "text-gray-500"
+                }`}
+                onClick={() => setLoginMethod("password")}
+              >
+                Password
+              </button>
+              <button
+                className={`flex-1 py-2 font-medium ${
+                  loginMethod === "magiclink"
+                    ? "text-[#8E122A] border-b-2 border-[#8E122A]"
+                    : "text-gray-500"
+                }`}
+                onClick={() => setLoginMethod("magiclink")}
+              >
+                Magic Link
+              </button>
+              <button
+                className={`flex-1 py-2 font-medium ${
+                  loginMethod === "otp"
+                    ? "text-[#8E122A] border-b-2 border-[#8E122A]"
+                    : "text-gray-500"
+                }`}
+                onClick={() => setLoginMethod("otp")}
+              >
+                One-Time Code
+              </button>
+            </div>
+
+            <form
+              // onSubmit={
+              //   loginMethod === "password"
+              //     ? handlePasswordLogin
+              //     : loginMethod === "magiclink"
+              //     ? handleMagicLinkLogin
+              //     : showOtpField
+              //     ? handleVerifyOtp
+              //     : handleSendOtp
+              // }
+            >
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -65,40 +177,70 @@ export default function LoginPage() {
                 />
               </div>
 
-              <div className="mb-8">
-                <label
-                  htmlFor="password"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8E122A]"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
+              {loginMethod === "password" && (
+                <div className="mb-8">
+                  <label
+                    htmlFor="password"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8E122A]"
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+              )}
+
+              {loginMethod === "otp" && showOtpField && (
+                <div className="mb-8">
+                  <label
+                    htmlFor="otp"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    One-Time Code
+                  </label>
+                  <input
+                    type="text"
+                    id="otp"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8E122A]"
+                    placeholder="123456"
+                    required
+                  />
+                </div>
+              )}
 
               <button
                 type="submit"
                 className="w-full bg-[#8E122A] text-white py-3 px-4 rounded-md hover:bg-[#6A0D20] transition font-bold text-lg"
               >
-                Sign In
+                {loginMethod === "password"
+                  ? "Sign In"
+                  : loginMethod === "magiclink"
+                  ? "Send Magic Link"
+                  : showOtpField
+                  ? "Verify Code"
+                  : "Send One-Time Code"}
               </button>
             </form>
 
-            <div className="mt-6 text-center">
-              <a
-                href="/forgot-password"
-                className="text-[#8E122A] hover:underline"
-              >
-                Forgot password?
-              </a>
-            </div>
+            {loginMethod === "password" && (
+              <div className="mt-6 text-center">
+                <a
+                  href="/forgot-password"
+                  className="text-[#8E122A] hover:underline"
+                >
+                  Forgot password?
+                </a>
+              </div>
+            )}
 
             <div className="mt-8 pt-6 border-t border-gray-200 text-center">
               <p className="text-gray-600">
@@ -113,7 +255,6 @@ export default function LoginPage() {
             </div>
           </div>
         </section>
-
       </main>
 
       <Footer />
