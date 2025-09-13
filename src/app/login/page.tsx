@@ -58,7 +58,6 @@ export default function LoginPage() {
         email
       }
     });
-    console.log(response.status)
     if (response.ok) {
       const params = new URLSearchParams({
         email

@@ -10,13 +10,11 @@ const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
       token
     }
   });
-  console.log(response.status)
   if (response.ok) {
-    window.localStorage.setItem("session", await response.text());
-    const params = new URLSearchParams({
-      email
-    })
-    window.location.assign(`/`)
+    const body = await response.json();
+    const session = body.session;
+    window.localStorage.setItem("session", JSON.stringify(session));
+    window.location.assign("/")
   }
 };
 

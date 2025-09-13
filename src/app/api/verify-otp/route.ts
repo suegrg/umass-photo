@@ -27,7 +27,9 @@ export async function POST(request: Request) {
     status: 400
   });
 
-  return new Response(JSON.stringify(data.session), {
+  return new Response(JSON.stringify({
+    session: data.session
+  }), {
     status: 200
   });
 }
