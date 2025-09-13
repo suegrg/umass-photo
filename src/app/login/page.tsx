@@ -60,7 +60,10 @@ export default function LoginPage() {
     });
     console.log(response.status)
     if (response.ok) {
-      window.location.replace("/otp")
+      const params = new URLSearchParams({
+        email
+      })
+      window.location.assign(`/otp?${params.toString()}`)
     }
   };
 
