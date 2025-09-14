@@ -11,11 +11,12 @@ export const getUserClient = (request: NextRequest) => {
   if (!access_token) return client;
   if (!refresh_token) return client;
   client.auth.setSession({ access_token, refresh_token });
+  return client;
 }
 
 export const attachCookies = async (client: SupabaseClient, response: Response) => {
-  const { data: session } = await client.auth.getSession();
-  response.headers.append("Set-Cookie", `access-token=${session.session?.access_token ?? ''}; SameSite=strict; HttpOnly; Secure`)
-  response.headers.append("Set-Cookie", `refresh-token=${session.session?.refresh_token ?? ''}; SameSite=strict; HttpOnly; Secure`)
+  const { data: { session } } = await client.auth.getSession();
+  response.headers.append("Set-Cookie", `access-token=${session?.access_token ?? ''}; SameSite=strict; HttpOnly; Secure`)
+  response.headers.append("Set-Cookie", `refresh-token=${session?.refresh_token ?? ''}; SameSite=strict; HttpOnly; Secure`)
   return response;
 }
