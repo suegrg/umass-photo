@@ -17,11 +17,11 @@ const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
 };
 
 const OtpPage = ({
-  params
+  searchParams
 }: {
-  params: Promise<{ email: string }>
+  searchParams: Promise<{ email: string }>
 }) => {
-  const { email } = use(params);
+  const { email } = use(searchParams);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
       <h1>Enter OTP</h1>

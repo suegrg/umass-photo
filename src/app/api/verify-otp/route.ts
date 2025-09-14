@@ -12,17 +12,17 @@ export async function POST(request: Request) {
 
   const token = request.headers.get("token");
   const email = request.headers.get("email");
-  if (token === null) return new Response("", {
+  if (token === null) return new Response("No token", {
     status: 400
   });
-  if (email === null) return new Response("", {
+  if (email === null) return new Response("No email", {
     status: 400
   });
 
   const client = createClient(supabaseUrl, supabaseApiKey);
   const { data } = await client.auth.verifyOtp({ email, token, type: 'email' })
 
-  if (!data.session) return new Response("", {
+  if (!data.session) return new Response("No Session", {
     status: 400
   });
 
@@ -32,8 +32,9 @@ export async function POST(request: Request) {
     session: data.session
   }), {
     status: 200,
-    headers: {
-      "Set-Cookie": `access-token=${data.session.access_token}; SameSite=strict; HttpOnly; Secure`,
-    }
+    headers: [
+      ["Set-Cookie", `access-token=${data.session.access_token}; SameSite=strict; HttpOnly; Secure`],
+      ["Set-Cookie", `refresh-token=${data.session.refresh_token}; SameSite=strict; HttpOnly; Secure`]
+    ]
   });
 }
