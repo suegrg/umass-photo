@@ -1,6 +1,5 @@
-"use client"
-
-import { FormEvent } from "react";
+'use client'
+import { FormEvent, use } from "react";
 
 const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault()
@@ -17,35 +16,38 @@ const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
     window.location.assign("/")
 };
 
-const OtpPage = () => {
-    const params = new URLSearchParams(window.location.search);
-    const email = params.get("email") ?? "";
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-            <h1>Enter OTP</h1>
-            <form
-            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-            onSubmit={handleVerifyOtp}
-            >
-                <input
-                    type="text"
-                    name="otp"
-                    placeholder="Enter OTP"
-                    style={{ padding: '10px', fontSize: '16px', marginBottom: '20px' }}
-                />
-                <input
-                    type="text"
-                    name="email"
-                    defaultValue={email}
-                    hidden
-                    aria-hidden
-                />
-                <button type="submit" style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
-                    Submit
-                </button>
-            </form>
-        </div>
-    );
+const OtpPage = ({
+  params
+}: {
+  params: Promise<{ email: string }>
+}) => {
+  const { email } = use(params);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
+      <h1>Enter OTP</h1>
+      <form
+        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        onSubmit={handleVerifyOtp}
+      >
+        <input
+          type="text"
+          name="otp"
+          placeholder="Enter OTP"
+          style={{ padding: '10px', fontSize: '16px', marginBottom: '20px' }}
+        />
+        <input
+          type="text"
+          name="email"
+          defaultValue={email}
+          hidden
+          aria-hidden
+        />
+        <button type="submit" style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+          Submit
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default OtpPage;
