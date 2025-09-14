@@ -2,14 +2,14 @@
 
 import Navbar from "../components/navbar/navbar";
 import Footer from "../components/footer/footer";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
+  const [error, _setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showOtpField, setShowOtpField] = useState(false);
   const [loginMethod, setLoginMethod] = useState("password"); // 'password', 'magiclink', or 'otp'
@@ -49,24 +49,22 @@ export default function LoginPage() {
   //   }
   // };
 
-  // const handleSendOtp = async (e) => {
-  //   e.preventDefault();
-  //   setError("");
-
-  //   const { error } = await supabase.auth.signInWithOtp({
-  //     email,
-  //     options: {
-  //       shouldCreateUser: false,
-  //     },
-  //   });
-
-  //   if (error) {
-  //     setError(error.message);
-  //   } else {
-  //     setShowOtpField(true);
-  //     setSuccessMessage("Check your email for the one-time code!");
-  //   }
-  // };
+  const handleSendOtp = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const email = (e.currentTarget.elements.namedItem("email") as HTMLInputElement).value;
+    const response = await fetch("/api/request-otp", {
+      method: "POST",
+      headers: {
+        email
+      }
+    });
+    if (response.ok) {
+      const params = new URLSearchParams({
+        email
+      })
+      window.location.assign(`/otp?${params.toString()}`)
+    }
+  };
 
   // const handleVerifyOtp = async (e) => {
   //   e.preventDefault();
@@ -149,15 +147,15 @@ export default function LoginPage() {
             </div>
 
             <form
-              // onSubmit={
-              //   loginMethod === "password"
-              //     ? handlePasswordLogin
-              //     : loginMethod === "magiclink"
-              //     ? handleMagicLinkLogin
-              //     : showOtpField
-              //     ? handleVerifyOtp
-              //     : handleSendOtp
-              // }
+              onSubmit={
+                loginMethod === "password"
+                  ? () => {}
+                  : loginMethod === "magiclink"
+                  ? () => {}
+                  : showOtpField
+                  ? () => {} :
+                  handleSendOtp
+              }
             >
               <div className="mb-6">
                 <label
@@ -169,6 +167,7 @@ export default function LoginPage() {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8E122A]"
