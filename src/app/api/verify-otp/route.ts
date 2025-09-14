@@ -10,8 +10,6 @@ export async function POST(request: Request) {
   if (!supabaseApiKey) throw new Error("No API key found!");
   if (!supabaseUrl) throw new Error("No Supabase URL found!");
 
-  const client = createClient(supabaseUrl, supabaseApiKey);
-
   const token = request.headers.get("token");
   const email = request.headers.get("email");
   if (token === null) return new Response("", {
@@ -20,16 +18,22 @@ export async function POST(request: Request) {
   if (email === null) return new Response("", {
     status: 400
   });
+
+  const client = createClient(supabaseUrl, supabaseApiKey);
   const { data } = await client.auth.verifyOtp({ email, token, type: 'email' })
 
-  console.log(JSON.stringify(data.session))
   if (!data.session) return new Response("", {
     status: 400
   });
 
+  console.log(`Access token:\n${data.session.access_token}\n`);
+
   return new Response(JSON.stringify({
     session: data.session
   }), {
-    status: 200
+    status: 200,
+    headers: {
+      "Set-Cookie": `access-token=${data.session.access_token}; SameSite=strict; HttpOnly; Secure`,
+    }
   });
 }

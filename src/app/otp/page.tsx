@@ -1,4 +1,7 @@
 "use client"
+
+import { FormEvent } from "react";
+
 const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault()
   const email = (e.currentTarget.elements.namedItem("email") as HTMLInputElement).value;
@@ -10,12 +13,8 @@ const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
       token
     }
   });
-  if (response.ok) {
-    const body = await response.json();
-    const session = body.session;
-    window.localStorage.setItem("session", JSON.stringify(session));
+  if (response.ok)
     window.location.assign("/")
-  }
 };
 
 const OtpPage = () => {
